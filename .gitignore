@@ -1,0 +1,65 @@
+# Docker関連
+.docker/
+docker-compose.override.yml
+
+# バックエンド関連（Django/Python想定）
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.env.dev
+.env.prod
+*.sqlite3
+.coverage
+htmlcov/
+media/
+
+# バックエンド関連（Node.js想定）
+backend/node_modules/
+backend/dist/
+backend/logs/
+
+# フロントエンド固有
+frontend/node_modules/
+frontend/.pnp
+frontend/.pnp.js
+frontend/coverage
+frontend/build
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# エディタ関連
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+*~
+\#*\#
+.#*
+
+# OS関連
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# キャッシュなど
+.eslintcache
+.stylelintcache
+.cache/
+.parcel-cache/
+
+# AWS/クラウド関連
+.serverless/
+.vercel
+.netlify/

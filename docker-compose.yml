@@ -1,0 +1,64 @@
+version: '3'
+
+services:
+  # MongoDB
+  mongo:
+    image: mongo:latest
+    container_name: pinterest-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - pinterest-network
+    restart: unless-stopped
+
+  # バックエンドAPI
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: pinterest-backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - uploads_data:/app/uploads
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/pinterest_clone
+      - JWT_SECRET=your_jwt_secret_key_change_in_production
+      - PORT=5000
+      - NODE_ENV=development
+    networks:
+      - pinterest-network
+    restart: unless-stopped
+
+  # フロントエンド
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: pinterest-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_API_URL=http://localhost:5000/api
+    networks:
+      - pinterest-network
+    restart: unless-stopped
+
+networks:
+  pinterest-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+  uploads_data:
